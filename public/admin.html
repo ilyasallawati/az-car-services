@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0e1116" />
+  <title>AZ Car Services — Garage Dashboard</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="icons/icon-192.png" type="image/png" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <svg class="logo" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+        <rect width="48" height="48" rx="12" fill="#1a2029"/>
+        <path d="M10 29l2.5-8.5a4 4 0 013.8-2.8h2.4l4.2-5.2a3 3 0 012.4-1.2h5.7a3 3 0 012.8 2l1.6 4.4h2.2a4 4 0 013.8 2.8L38 29v6a1.5 1.5 0 01-1.5 1.5H35a1.5 1.5 0 01-1.5-1.5V34h-19v1a1.5 1.5 0 01-1.5 1.5H11.5A1.5 1.5 0 0110 35v-6z" fill="#f5a623"/>
+        <circle cx="16.5" cy="34" r="2" fill="#0e1116"/>
+        <circle cx="31.5" cy="34" r="2" fill="#0e1116"/>
+      </svg>
+      <div class="brand">
+        <h1>Garage Dashboard</h1>
+        <p id="adminUser" class="muted">—</p>
+      </div>
+      <div class="header-actions">
+        <a class="btn btn-sm btn-ghost" href="index.html">Client view</a>
+        <button class="btn btn-sm" id="btnLogout">Log out</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============ LOGIN ============ -->
+  <main id="loginView" class="container narrow">
+    <div class="card" style="max-width:400px;margin:40px auto;">
+      <h2 class="mb">Staff sign in</h2>
+      <div id="loginError" class="alert alert-err hidden"></div>
+      <form id="loginForm">
+        <div class="field">
+          <label for="loginEmail">Email</label>
+          <input id="loginEmail" type="email" required autocomplete="username" />
+        </div>
+        <div class="field">
+          <label for="loginPass">Password</label>
+          <input id="loginPass" type="password" required autocomplete="current-password" />
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Sign in</button>
+      </form>
+      <p class="small muted mt center">
+        Access is managed by the garage owner (Supabase Auth).
+      </p>
+    </div>
+  </main>
+
+  <!-- ============ DASHBOARD ============ -->
+  <main id="dashView" class="container hidden">
+
+    <div id="dashError" class="alert alert-err hidden"></div>
+
+    <div class="stats-grid">
+      <div class="stat"><div class="num" id="statPickups">–</div><div class="lbl">Pickups tonight (7–10 PM)</div></div>
+      <div class="stat"><div class="num" id="statTomorrow">–</div><div class="lbl">Cars in service now</div></div>
+      <div class="stat"><div class="num" id="statActive">–</div><div class="lbl">Active bookings (7 days)</div></div>
+      <div class="stat"><div class="num" id="statNeeds">–</div><div class="lbl">Awaiting parts approval</div></div>
+    </div>
+
+    <div class="card mb">
+      <div class="section-title">Next 14 days — capacity (max 5/day)</div>
+      <div id="capacityStrip" class="cap-strip"></div>
+    </div>
+
+    <div class="card">
+      <div class="section-title">
+        Bookings
+        <span class="small muted" id="listMeta"></span>
+      </div>
+      <div id="filterRow" class="mb">
+        <select id="statusFilter" style="max-width:230px">
+          <option value="all">All statuses</option>
+          <option value="confirmed">Confirmed</option>
+          <option value="in_service">In service</option>
+          <option value="needs_approval">Needs approval</option>
+          <option value="completed">Completed</option>
+          <option value="cancelled">Cancelled</option>
+        </select>
+      </div>
+      <div id="bookingsList"></div>
+      <div id="listEmpty" class="center muted small hidden">No bookings in this period.</div>
+    </div>
+
+  </main>
+
+  <!-- ============ PARTS APPROVAL MODAL ============ -->
+  <div class="modal-backdrop" id="approvalModal">
+    <div class="modal">
+      <h3>Parts approval — WhatsApp</h3>
+      <p class="small muted mb">Describe the part / repair and the estimated cost. This opens WhatsApp with a pre-filled approval request to the client.</p>
+      <div class="field">
+        <label for="apPart">Part / repair description *</label>
+        <input id="apPart" type="text" placeholder="e.g. Front brake pads" />
+      </div>
+      <div class="field">
+        <label for="apCost">Estimated cost (OMR) *</label>
+        <input id="apCost" type="text" inputmode="decimal" placeholder="e.g. 25" />
+      </div>
+      <div id="apError" class="alert alert-err hidden"></div>
+      <div class="mt" style="display:flex;gap:10px">
+        <button class="btn btn-ghost" id="apCancel" style="flex:1">Cancel</button>
+        <button class="btn btn-wa" id="apSend" style="flex:2">Send on WhatsApp</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

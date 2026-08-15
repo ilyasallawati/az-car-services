@@ -1,0 +1,15 @@
+{
+  "name": "az-car-services",
+  "version": "1.0.0",
+  "description": "AZ Car Services — PWA booking app (client booking + garage admin dashboard)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
